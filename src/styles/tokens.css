@@ -1,0 +1,77 @@
+/* Semantic tokens are the source of truth; Tailwind utilities share these values. */
+@theme static {
+  --color-canvas: #faf7f1;
+  --color-surface: #fffdf9;
+  --color-surface-subtle: #f0ece5;
+  --color-ink: #242321;
+  --color-muted: #66615c;
+  --color-accent: #b74425;
+  --color-accent-foreground: #fffdf9;
+  --color-accent-hover: #96371e;
+  --color-accent-soft: #f5e9e2;
+  --color-success: #346347;
+  --color-success-soft: #eaf1ea;
+  --color-deep: #292724;
+  --color-highlight: #f0b198;
+  --color-inverse-muted: #d1cbc2;
+  --color-inverse-line: #6b655d;
+  --color-line: #dcd6cd;
+  --color-focus: #b74425;
+  /* Success is separate from the brand. Labels carry the meaning without color. */
+  --color-before: #66615c;
+  --color-before-surface: #f0ece5;
+  --color-after: #346347;
+  --color-after-surface: #eaf1ea;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-pill: 999px;
+}
+
+:root {
+  color-scheme: light;
+  --space-unit: 0.25rem;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-24: 6rem;
+  --space-32: 8rem;
+  --page-gutter: clamp(1.25rem, 5vw, 5rem);
+  --section-space: clamp(3.5rem, 8vw, 7rem);
+
+  --container-page: 76rem;
+  --container-reading: 42rem;
+  --border-width: 1px;
+  --border-subtle: var(--border-width) solid var(--color-line);
+
+  --type-display: clamp(3.25rem, 8.6vw, 7.5rem);
+  --type-hero: clamp(2.65rem, 7.8vw, 6.5rem);
+  --type-result: clamp(2.4rem, 5vw, 3.5rem);
+  --type-heading: clamp(1.75rem, 3.5vw, 3rem);
+  --type-subheading: clamp(1.25rem, 2.2vw, 1.75rem);
+  --type-body: clamp(1rem, 1.25vw, 1.125rem);
+  --type-small: 0.9375rem;
+  --type-caption: 0.875rem;
+  --type-label: 0.8125rem;
+  --type-metric: clamp(2.25rem, 5vw, 4.5rem);
+  --leading-display: 1.04;
+  --leading-heading: 1.2;
+  --leading-body: 1.65;
+  --tracking-display: -0.065em;
+  --tracking-heading: -0.035em;
+  --tracking-label: 0.07em;
+
+  --duration-fast: 140ms;
+  --duration-normal: 220ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+}
+
+@theme inline {
+  --font-sans: var(--font-geist), Arial, Helvetica, sans-serif;
+  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  --spacing: var(--space-unit);
+}
