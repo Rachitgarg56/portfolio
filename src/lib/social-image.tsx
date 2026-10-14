@@ -15,7 +15,7 @@ export function createSocialImage(title: string, label: string) {
         <span style={{ fontSize: 22, color: brand.accent, marginBottom: 20 }}>{label}</span>
         <span style={{ fontSize: title.length > 35 ? 76 : 88, lineHeight: 1.1, letterSpacing: "-3px", maxWidth: 1040 }}>{title}</span>
       </div>
-      <div style={{ display: "flex", fontSize: 24, color: brand.muted }}>Frontend / Product Engineer</div>
+      <div style={{ display: "flex", fontSize: 24, color: brand.muted }}>{profile.positioning}</div>
     </div>,
     socialImageSize,
   );

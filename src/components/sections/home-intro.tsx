@@ -22,9 +22,12 @@ export function HomeIntro() {
           <p className="type-label hero-eyebrow">{profile.role}</p>
           <h1 id="intro-title" className="hero-title">Rachit Garg<span className="text-accent">.</span></h1>
           <p className="hero-statement">I build, improve<br />and ship real products.</p>
-          <p className="hero-description">From faster production interfaces to thoughtful AI experiences. Frontend craft, with the whole product in mind.</p>
+          <p className="hero-description">{profile.positioning}</p>
           <HeroProof items={proofItems} />
-          <a className="hero-link" href="#work">View work <span aria-hidden="true">↘</span></a>
+          <div className="hero-actions">
+            <a className="hero-link" href="#work">View work <span aria-hidden="true">↘</span></a>
+            <Link className="text-link hero-resume-link" href="/resume">Resume <span aria-hidden="true">→</span></Link>
+          </div>
         </div>
         <figure className="hero-portrait">
           <Image

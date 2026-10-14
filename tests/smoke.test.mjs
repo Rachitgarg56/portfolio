@@ -4,8 +4,9 @@ import test from "node:test";
 // Run against `npm start`, never next dev: this checks production output.
 const origin = process.env.PORTFOLIO_URL || "http://127.0.0.1:3000";
 const publicOrigin = process.env.NEXT_PUBLIC_SITE_URL?.trim();
-const routes = ["/", "/work/sringeri-net", "/work/asset-management-system", "/work/papertrail", "/work/unstuck"];
+const routes = ["/", "/resume", "/work/sringeri-net", "/work/asset-management-system", "/work/papertrail", "/work/unstuck"];
 const mediaFiles = ["/media/papertrail-demo.mp4", "/media/unstuck-demo.mp4"];
+const resumePdf = "/resume/rachit-garg-resume.pdf";
 const pages = new Map();
 
 function attribute(tag, name) {
@@ -57,6 +58,7 @@ test("every internal navigation link and fragment resolves", () => {
       const url = new URL(href, new URL(route, origin));
       if (url.origin !== new URL(origin).origin) continue;
       if (mediaFiles.includes(url.pathname)) continue; // Checked with range requests below.
+      if (url.pathname === resumePdf) continue; // Checked as a binary response below.
       const target = pages.get(url.pathname);
       assert.ok(target, `${route}: ${href} points to a built page`);
       if (url.hash) assert.ok(target.html.includes(`id="${url.hash.slice(1)}"`), `${route}: ${href} fragment exists`);
@@ -118,6 +120,7 @@ test("reported results and approximation qualifiers remain in the HTML", () => {
   for (const value of ["3.6", "2.1", "78", "95", "82", "96", "18%", "40+", "15+"]) assert.ok(sringeri.includes(value), value);
   for (const value of ["25%", "30%", "Approximately", "backend authorization"]) assert.ok(assets.includes(value), value);
   assert.ok(sringeri.includes("Approximately"));
+  assert.doesNotMatch(assets, /40%/);
 });
 
 test("independent products have real destinations, clear source visibility and no fabricated metrics", () => {
@@ -134,6 +137,8 @@ test("independent products have real destinations, clear source visibility and n
     assert.doesNotMatch(html, /href="https:\/\/github\.com\/Rachitgarg56\/Unstuck"/);
   }
   assert.ok(papertrail.includes('href="https://medium.com/@rachitgarg56/building-papertrail-a-production-minded-rag-document-q-a-app-e3f799b0ace3"'));
+  assert.ok(papertrail.includes('href="#demo"'));
+  assert.ok(unstuck.includes('href="#demo"'));
   for (const html of [papertrail, unstuck]) {
     assert.ok(html.includes("Personal"));
     assert.doesNotMatch(html, /id="results-title"/);
@@ -185,6 +190,65 @@ test("homepage renders complete comparisons and experience before JavaScript", (
   assert.match(html, /aria-labelledby="sringeri-diff-title"/);
   assert.doesNotMatch(html, /style="[^"]*(?:opacity:\s*0(?:;|")|visibility:\s*hidden)/);
   for (const route of routes.slice(1)) assert.doesNotMatch(pages.get(route).html, /class="sringeri-diff"/);
+});
+
+test("homepage exposes the full hiring narrative and contact path", () => {
+  const html = pages.get("/").html;
+  const text = html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ");
+  for (const value of [
+    "Software Engineer building product-grade web and AI systems, with a frontend edge.",
+    "Engineering toolkit", "Building", "Exploring", "Interested in",
+    "Geekster", "Full Stack Web Development Apprentice", "Jun 2023", "FigPro",
+    "Kommunicate", "Support Bot Builder", "Jekyll / Liquid", "Bengaluru",
+  ]) assert.ok(text.includes(value), value);
+  assert.ok(html.includes('href="https://figma-clone-react-dqk0w5bfm-rachit-gargs-projects.vercel.app/"'));
+  assert.ok(html.includes('href="mailto:rachitgarg56@gmail.com"'));
+  assert.ok(html.includes('href="https://linkedin.com/in/rachitgarg56"'));
+  assert.ok(html.includes('href="/resume"'));
+});
+
+test("resume route and supplied PDF are available without an embedded viewer", async () => {
+  const html = pages.get("/resume").html;
+  assert.ok(html.includes('href="/resume/rachit-garg-resume.pdf"'));
+  assert.match(html, /download="Rachit-Garg-Resume\.pdf"/);
+  assert.doesNotMatch(html, /<(?:iframe|embed|object)\b/);
+  for (const value of ["Leviosa Consulting Pvt. Ltd.", "Intentive Technologies Pvt. Ltd.", "Geekster", "Papertrail", "unStuck"]) assert.ok(html.includes(value), value);
+  const response = await request(resumePdf);
+  assert.equal(response.status, 200);
+  assert.match(response.headers.get("content-type"), /application\/pdf/);
+  const bytes = Buffer.from(await response.arrayBuffer());
+  assert.equal(bytes.subarray(0, 5).toString(), "%PDF-");
+});
+
+test("case studies use project-specific systems and confidentiality boundaries", () => {
+  const sringeri = pages.get("/work/sringeri-net").html;
+  const assets = pages.get("/work/asset-management-system").html;
+  const papertrail = pages.get("/work/papertrail").html;
+  const unstuck = pages.get("/work/unstuck").html;
+  assert.doesNotMatch(sringeri, /<img\b/);
+  assert.doesNotMatch(assets, /<img\b/);
+  for (const value of ["Legacy frontend", "Typed components", "Content flow", "Live site"]) assert.ok(sringeri.includes(value), value);
+  for (const value of ["Request", "Review", "Approval", "Asset update", "In / Out tracking", "Audit trail"]) assert.ok(assets.includes(value), value);
+  for (const value of ["workspace", "signed uploads", "synchronous", "background processing"]) assert.ok(papertrail.toLowerCase().includes(value.toLowerCase()), value);
+  for (const value of ["Typical answer-first AI", "progressive hint", "Source private"]) assert.ok(unstuck.includes(value), value);
+});
+
+test("independent product videos are native, deferred and absent from the homepage", () => {
+  assert.doesNotMatch(pages.get("/").html, /<video\b/);
+  for (const [route, poster, source] of [
+    ["/work/papertrail", "/images/papertrail-demo.webp", "/media/papertrail-demo.mp4"],
+    ["/work/unstuck", "/images/unstuck-demo.webp", "/media/unstuck-demo.mp4"],
+  ]) {
+    const html = pages.get(route).html;
+    const video = html.match(/<video\b[^>]*>/)?.[0];
+    assert.ok(video, `${route}: video`);
+    assert.match(video, /\scontrols(?:="")?/);
+    assert.match(video, /\splaysInline(?:="")?|\splaysinline(?:="")?/);
+    assert.equal(attribute(video, "preload"), "none");
+    assert.equal(attribute(video, "poster"), poster);
+    assert.doesNotMatch(video, /\sautoplay/);
+    assert.ok(html.includes(`src="${source}"`));
+  }
 });
 
 test("hero proof has a stable server default and four native controls", () => {

@@ -3,6 +3,7 @@ import { Section } from "@/components/layout/section";
 import { ProjectResult } from "@/components/projects/engineering-diff";
 import { professionalProjects } from "@/data/projects";
 import { SringeriDiff } from "@/components/projects/sringeri-diff";
+import { ProjectLinks } from "@/components/projects/project-links";
 
 export function SelectedWork() {
   return (
@@ -22,6 +23,7 @@ export function SelectedWork() {
             <ul className="technology-list" aria-label={`${project.name} technologies`}>
               {project.technologies.slice(0, 4).map((technology) => <li key={technology}>{technology}</li>)}
             </ul>
+            {project.slug === "sringeri-net" && <ProjectLinks project={project} />}
             <Link href={`/work/${project.slug}`} className="text-link mt-6">Read the case study <span className="sr-only">for {project.name}</span><span aria-hidden="true">↗</span></Link>
           </div>
           {project.slug === "sringeri-net" ? <SringeriDiff /> : <div className="project-preview-result">

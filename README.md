@@ -1,19 +1,20 @@
-# Rachit Garg — frontend / product engineering portfolio
+# Rachit Garg — software engineering portfolio
 
-A local Next.js App Router portfolio with a homepage and four statically generated
-project pages. Professional work leads; independent products show complementary
-product and AI engineering work. Nothing has been publicly deployed.
+A production-oriented Next.js App Router portfolio that leads with shipped
+professional work and uses independent AI products to show broader product and
+full-stack engineering range. The interface stays server-rendered by default and
+uses two small GSAP islands only on the homepage.
 
-## Start the project
+## Run locally
 
-Use Node.js 22 or newer. From the project directory:
+Use Node.js 22 or newer.
 
 ```sh
 npm ci
 npm run dev
 ```
 
-Open http://localhost:3000. For a production preview:
+Open `http://localhost:3000`. For a production preview:
 
 ```sh
 npm run check
@@ -21,218 +22,137 @@ npm run build
 npm start -- --hostname 127.0.0.1 --port 3100
 ```
 
-Open http://127.0.0.1:3100. In a second PowerShell terminal:
+Then run the HTTP smoke suite in another PowerShell terminal:
 
 ```powershell
 $env:PORTFOLIO_URL = 'http://127.0.0.1:3100'
 npm run test:smoke
 ```
 
-`npm run check` runs ESLint with zero tolerated warnings, Next route-type
-generation and strict TypeScript. The smoke suite uses Node's built-in runner
-against the production server; it does not install browser/test dependencies.
+## Routes and information architecture
 
-## Structure and editing
+- `/`: Hero → Production Work → Independent Products → Experience → Engineering
+  Toolkit → Now → About → Contact.
+- `/resume`: a fast, print-friendly engineering overview with view and download
+  actions for the supplied PDF.
+- `/work/sringeri-net`: production modernization, content flow and Engineering Diff.
+- `/work/asset-management-system`: role-aware workflow and state-driven UI rules.
+- `/work/papertrail`: repository-verified RAG architecture, tradeoffs and demo.
+- `/work/unstuck`: coaching behavior, AI interaction constraints and demo.
 
-- `src/data/profile.ts`: identity, positioning and supplied public profiles.
-- `src/data/experience.ts`: supplied employers, roles and dates, with no inferred
-  mapping between employers and projects.
-- `src/data/projects.ts`: the four typed project records, professional/independent
-  grouping, contributions, verified technologies, optional comparisons, live/source/
-  article links and media descriptions. Numeric results are not required for a
-  personal project. Keep approximate results qualified.
-- `src/components/sections`: hero with a project index, production work, independent
-  products, experience and about. Content is visible without expanding anything.
-- `src/components/projects`: shared case study, explicit Before/After comparisons,
-  project links and static retrieval/coaching flow illustrations.
-- `src/components/layout`: page container, labelled section, shared header/footer.
-- `src/app/work/[slug]`: static project pages and per-project social images. Unknown
-  slugs return 404. Adding verified project data also updates the sitemap and routes.
-- `src/styles`: shared tokens, responsive composition and the licensed local Geist
-  font. `src/lib` holds origin configuration and social-image generation.
-- `public/images` and `public/media`: real frames and original supplied recordings.
-- `tests/smoke.test.mjs`: production HTTP, navigation, metadata and asset verification.
+Unknown project slugs return a real 404. When `NEXT_PUBLIC_SITE_URL` is configured,
+the sitemap includes the homepage, resume and all four static case-study routes.
 
-The five content routes are `/`, `/work/sringeri-net`,
-`/work/asset-management-system`, `/work/papertrail` and `/work/unstuck`.
+## Content architecture
 
-## Content evidence and boundaries
+- `src/data/profile.ts` owns public positioning, email, location and profile links.
+- `src/data/experience.ts` models employment separately from foundation/apprenticeship
+  work and contains supporting proof links.
+- `src/data/projects.ts` owns project facts, metrics, narrative fields, links and media.
+- `src/data/toolkit.ts` owns the compact toolkit and current-direction content.
+- `src/components/sections` contains homepage sections. All except the existing
+  `HeroProof` interaction are Server Components.
+- `src/components/projects` contains the shared case-study layout, Engineering Diff,
+  project-specific system/workflow views and the existing isolated GSAP diff wrapper.
 
-Professional contributions, historical figures, employer names and dates are
-supplied by Rachit. No team composition or undocumented decision history is added.
-Frontend editing rules are distinguished from backend authorization.
+Project content stays separate from presentation so links, facts and metrics have one
+source. Optional narrative fields render only when there is verified supporting
+content; missing team details, adoption figures and decision history are not filled
+with invented copy.
 
-Papertrail's implementation was inspected in the public
-[support-agent repository](https://github.com/Rachitgarg56/support-agent) on
-2026-10-07, including ingestion/retrieval routes, SQL, cleanup, UI, tests and CI.
-Rationale and lessons also come from Rachit's
-[Papertrail build story](https://medium.com/@rachitgarg56/building-papertrail-a-production-minded-rag-document-q-a-app-e3f799b0ace3),
-read through his public Medium feed. The repository is authoritative for current
-implementation; the supplied video is explicitly presented as a recording, not
-proof of the current deployed version. Test files were inspected, not executed as
-part of this portfolio's verification. No adoption or retrieval-quality scores are
-claimed.
+## Experience and project boundaries
 
-unStuck's story comes from Rachit's supplied product intent and the visible launch
-walkthrough. Its source is private/inaccessible publicly, so no stack, architecture,
-automated enforcement guarantees or unverified implementation details are claimed.
-The live product is linked; the inaccessible GitHub URL is not a public CTA.
+The experience section shows a progression from Geekster foundation/apprenticeship,
+to the Intentive SDE internship, to the current Leviosa production role. FigPro is
+supporting apprenticeship evidence rather than a fifth equal-weight case study.
 
-No contact address, LinkedIn or resume was provided. Those actions remain omitted.
-GitHub and Medium profile links now use the supplied project author identities.
-There is no empty blog, experiment listing or unStuck article placeholder.
+Sringeri and the Asset Management System use abstract system views and typography;
+they contain no screenshots or private internal data. Sringeri links to its public
+site. The AMS case explains frontend business-state rules without implying that UI
+rules replace server-side authorization, and it uses only the supplied 30% and 25%
+outcomes.
+
+Papertrail architecture was checked against its public repository. The case study
+covers workspace-scoped retrieval, signed uploads, citations, quotas, cleanup,
+testing/CI and the current synchronous-processing tradeoff. unStuck's repository is
+private, so its case study focuses on the supplied product intent and visible coaching
+flow and shows a `Source private` note rather than a GitHub action.
+
+## Resume and public contact policy
+
+`public/resume/rachit-garg-resume.pdf` is an unchanged copy of the selected
+`Rachit-resume-2026.pdf`; the site does not generate or rewrite the PDF. The `/resume`
+route is an HTML overview drawn from verified portfolio data, with direct view and
+download links and dedicated print CSS. It does not embed a large PDF viewer.
+
+Public contact is intentionally limited to:
+
+- Email: `rachitgarg56@gmail.com`
+- LinkedIn: `https://linkedin.com/in/rachitgarg56`
+- GitHub: `https://github.com/Rachitgarg56`
+- Location: Bengaluru
+
+There is no public phone number, WhatsApp, Instagram or contact form.
+
+## Media and accessibility
+
+Papertrail and unStuck recordings appear only on their case-study pages as native
+`<video>` elements with `controls`, `playsInline`, `preload="none"` and poster images.
+They do not autoplay and are absent from the homepage and critical render path. Each
+video has a written screen walkthrough, but the walkthrough is explicitly not an
+audio transcript.
+
+The original Papertrail recording still contains a clideo.com watermark. Accurate
+captions/transcripts and a clean recording remain deferred in `remainings.txt`.
+
+Accessibility foundations include one main and h1 per page, a skip link, semantic
+headings and lists, visible focus, 44px+ interactive targets, responsive navigation,
+written alternatives beside media, and reduced-motion handling for the existing GSAP
+interactions. Essential content is present in server HTML and remains readable without
+JavaScript.
 
 ## Design and performance
 
-The introduction leads with Rachit's name, role and product focus. A small project
-index makes all four stories discoverable. Professional outcomes stay next to the
-work they describe, rather than being repeated in a separate metrics section.
-Papertrail's wide workspace preview and unStuck's portrait walkthrough have
-different compositions and preserve their original aspect ratios.
+The existing warm ivory, graphite, burnt-orange and semantic-green system is retained.
+Geist remains the only bundled font. Professional proof stays ahead of independent
+products, and project screenshots retain their own product identities.
 
-The hero uses a recruiter-focused 60/40 composition: positioning, evidence and the
-primary action lead on the left, while Rachit's updated portrait provides a restrained
-supporting presence on the right. On smaller screens the complete engineering message
-and action appear before the portrait. The project index sits in its own row below the
-main hero. The 5472×3648 source was resized to 2400px wide and encoded as an 84-quality
-WebP (151,070 bytes); the original Downloads file is untouched. `next/image` supplies
-intrinsic dimensions and responsive formats. Because the portrait is visible in the
-initial hero, it loads eagerly with high fetch priority; project screenshots remain
-lazy loaded. The portrait is static and is not added to the GSAP choreography.
+Server Components remain the default. No dependency was added in this refinement.
+GSAP remains confined to the homepage's hero proof switcher and Sringeri Engineering
+Diff; the production smoke suite checks that its runtime does not reach case-study or
+resume routes. Videos use no preload, static images retain explicit dimensions, and
+the supplied resume is served as a small static PDF.
 
-Warm ivory, graphite, neutral panels and a restrained burnt-orange accent frame
-the projects. Green is reserved for improved metrics and successful outcomes;
-product screenshots retain their original colors. Geist remains the only font (29,400-byte WOFF2,
-`next/font/local`, swap). System monospace is used for labels. Fluid type, a 4px
-spacing base, a 76rem container, visible dividers and bounded reading widths are
-defined in shared tokens/styles. Supporting text is 15px, technology labels and
-captions 14px, and uppercase section labels 13px. Body text remains at least 16px.
-Metadata colors are mirrored in `src/lib/brand.ts` because generated social images
-cannot read page CSS.
+## Public origin and deployment
 
-Server Components remain the default. Two small homepage boundaries use GSAP
-3.15.0 and the official `@gsap/react` 2.1.2 integration:
+Copy `.env.example` to `.env.local` and set `NEXT_PUBLIC_SITE_URL` to the final HTTP(S)
+origin with no path, query, credentials or hash. Rebuild after setting it. With an
+origin, routes emit canonical URLs, the sitemap is populated and robots permit
+crawling. Without one, canonicals are omitted, the sitemap is empty and robots
+disallow crawling. No domain has been invented and deployment is outside this task.
 
-- `hero-proof.tsx`: four native buttons change a supporting proof line. Fine-pointer
-  hover, focus and click/tap share one selection. The initial Performance proof is
-  server-rendered; buttons enable after hydration. Grid-stacked panels reserve the
-  longest proof's height. Only the selected proof moves 4px over 200ms, with a polite
-  live region and no hero entrance animation.
-- `diff-motion.tsx`: receives the server-rendered `sringeri-diff.tsx` through a
-  children slot. A native IntersectionObserver watches the heading, then runs one
-  650ms arrow/result/note sequence per mount. Values are always readable. Delayed
-  animations are recorded in both scoped component and media contexts; observers
-  disconnect and inline styles revert during teardown or preference changes.
+## Verification
 
-Reduced-motion users see final states immediately. Changes to that preference
-cancel in-flight animation without replaying the current proof or diff. Rapid
-keyword changes revert superseded motion. Case studies retain their static diffs.
-Shared links back to the homepage disable route prefetch so they do not pull the
-animation runtime onto case-study visits speculatively. There is no ScrollTrigger,
-smooth-scroll layer, second animation library, analytics or new media widget.
+On 2026-10-14:
 
-Real WebP previews use `next/image`, explicit dimensions, responsive sizes and
-native lazy loading. Videos are ordinary links, not embedded players or preloads:
-the MP4 bytes are fetched only when the visitor opens the recording. No autoplay,
-third-party iframe or consent-dependent media service is introduced.
+- `npm run lint` passed with zero warnings.
+- `npm run typecheck` passed, including Next route generation and strict TypeScript.
+- `npm run build` passed. The first sandboxed attempt compiled but its worker was
+  blocked by `spawn EPERM`; the same build completed with worker permission.
+- All 15 production smoke tests passed against `http://127.0.0.1:3100`.
+- The suite verifies routes, metadata/social images, internal links and fragments,
+  404s, assets, sitemap policy, verified metrics, confidentiality boundaries, contact
+  and experience content, FigPro, resume/PDF delivery, native media behavior and GSAP
+  isolation.
+- Headless Chrome 153 rendered the production build at 320px, 390px, 768px and
+  1440px. The homepage, experience, AMS workflow, Papertrail video, resume and contact
+  views were inspected; every measured view reported `scrollWidth === clientWidth`.
+- A 720 CSS-pixel layout at 2x device scale was inspected as a 200% layout simulation.
+  Chrome reported no console warnings, runtime exceptions or hydration errors during
+  the captured routes.
 
-Accessibility foundations include one main and h1 per page, a skip link, semantic
-headings, visible focus (including light focus on dark media), generous interactive
-targets, wrapped mobile navigation and reduced-motion CSS. Essential narratives,
-links and figures are server HTML. Browser verification remains necessary.
-
-## Media provenance and remaining preparation
-
-The supplied originals are copied unchanged:
-
-- `paper-trail.mp4` → `public/media/papertrail-demo.mp4`: 66.34 seconds,
-  1906×898, 4,228,946 bytes, with its original audio.
-- `unstuck-launch.mp4` → `public/media/unstuck-demo.mp4`: 71.90 seconds,
-  1080×1350, 10,069,515 bytes, with its original narration.
-
-The WebP previews are full frames at 65 seconds (Papertrail) and 24 seconds
-(unStuck), encoded at quality 85. No UI elements were fabricated or watermarks
-removed. Source files under the user's Videos folder are untouched. FFmpeg was an
-existing local inspection tool; it is not a project build or runtime dependency.
-
-Papertrail's supplied recording contains a clideo.com watermark. Replace it and
-its preview with a clean original when available. The narration has not been
-transcribed or verified. On-page walkthroughs describe visible screens and are
-explicitly not audio transcripts. Accurate captions/transcripts remain required
-before treating the optional recordings as fully accessible media. Do not invent
-subtitles from the product narrative. An inline narrated player should wait for
-those captions; the current links preserve access to the supplied originals.
-
-## Origin and future deployment
-
-Copy `.env.example` to `.env.local` and set `NEXT_PUBLIC_SITE_URL` to the real
-HTTP(S) origin, without a path, query, credentials or hash. Rebuild after changes.
-The same setting must be present when running the smoke suite (which loads
-`.env.local` if available).
-
-With an origin, each page emits its canonical URL, the sitemap lists all five
-pages, and robots.txt permits crawling. Without one, canonicals are omitted, the
-sitemap is empty, and robots.txt disallows crawling. Next may warn about the local
-metadataBase default; no public domain has been invented.
-
-A Node-compatible Next.js host can run `npm run build` followed by `npm start`.
-No CMS, database or API credentials are needed. Deploying is a separate task.
-
-## Verification and handoff
-
-The production smoke suite checks all five pages, unique route metadata/social
-images, landmarks, headings, IDs, fragment targets, internal destinations, asset
-responses, 404s, canonical/sitemap policy and the supplied professional figures.
-It also checks personal-project live/source/article links, private source handling,
-absence of fabricated numeric outcomes, image dimensions/lazy loading and MP4
-range responses for seeking. Refinement checks cover the server-rendered hero
-controls, four Sringeri transformations, employer/date content and GSAP isolation
-from all four case-study script graphs. It does not test either product's backend.
-
-Current implementation checks and measured results are recorded in
-`artifacts/verification.txt` during local verification (ignored from version
-control). On 2026-10-08, lint, strict TypeScript and the production build passed.
-All eleven production smoke tests passed against port 3100 with no public origin
-configured. To accommodate the environment's child-process restriction, the same
-suite runs inside the sandbox without a separate worker using:
-
-```powershell
-$env:PORTFOLIO_URL = 'http://127.0.0.1:3100'
-node --env-file-if-exists=.env.local tests/smoke.test.mjs
-```
-
-New palette text contrast checks ranged from 5.08:1 to 14.68:1. The two full-frame
-WebP source images total 146,838 bytes before responsive optimization. These are
-asset/contrast measurements, not a browser performance or accessibility audit.
-
-Initial script sizes, measured by summing gzip-compressed script files referenced
-by production HTML, changed from 184,295 to 212,837 bytes on the homepage: an
-increase of 28,542 bytes. Direct Sringeri and Papertrail loads remain 184,295 bytes;
-the smoke suite verifies that no case-study script graph contains GSAP. This is a
-bundle-size comparison, not a measured network waterfall or Lighthouse score.
-Baseline and final inventories are in the ignored `artifacts/refinement-*.json`
-files. Shared home links have prefetch disabled to avoid speculative GSAP loading.
-
-Browser and native Computer Use connections are unavailable in this
-environment. These checks therefore remain **incomplete**:
-
-- Rendered visual review at 320px, 390px, 768px and desktop; 200% zoom and wrapping.
-- Keyboard order, skip-link focus, fragment navigation and visible focus in use.
-- Keyword hover/focus/tap, rapid switching, live announcements and proof height.
-- JavaScript-disabled and reduced-motion browser behavior, including preference
-  changes during a timeline, one-time diff playback and route-remount cleanup.
-- Browser console errors and hydration warnings (build/server checks do not cover these).
-- Browser accessibility audit and mobile Lighthouse against the production build.
-- Caption/transcript review and native playback of the optional recorded demos.
-
-Passing HTTP/build checks does not establish visual quality or publish readiness.
-No Lighthouse or field Core Web Vitals result is claimed. Review the actual pages
-in a connected browser before publishing.
-
-## Dependency choices
-
-Existing versions are preserved. Only `gsap` and `@gsap/react` were added, with exact
-versions and an updated lockfile. The installed Next lint plugins support ESLint 9;
-do not force an incompatible major upgrade. Dependency security status should be
-checked separately before deployment; this implementation does not claim a fresh
-registry audit.
+An interactive browser surface was unavailable, so manual keyboard/focus testing,
+native 200% browser zoom, live reduced-motion preference changes, real-device touch,
+Lighthouse and a browser accessibility audit remain incomplete and are recorded in
+`remainings.txt`. Passing build, HTTP and headless rendering checks does not replace
+those checks before publication.

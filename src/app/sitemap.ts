@@ -4,5 +4,5 @@ import { site } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   if (!site.url) return [];
-  return ["/", ...projects.map(({ slug }) => `/work/${slug}`)].map((path) => ({ url: new URL(path, site.url).href }));
+  return ["/", "/resume", ...projects.map(({ slug }) => `/work/${slug}`)].map((path) => ({ url: new URL(path, site.url).href }));
 }

@@ -24,7 +24,7 @@ export function IndependentProducts() {
             <h3 id={`preview-${project.slug}`} className="product-title">{project.name}</h3>
             <p className="product-question">{project.slug === "papertrail" ? "An answer is more useful when you can trace it." : "What if AI helped you think, without doing the thinking?"}</p>
             <p className="text-muted mt-5">{project.slug === "papertrail" ? "Upload your documents, ask a question and follow the sources. A full-stack exploration of retrieval, streaming interfaces and trust." : "Built from my own DSA preparation: focused questions, smaller examples and progressive hints that leave the discovery to you."}</p>
-            <ProjectLinks project={project} />
+            <ProjectLinks project={project} includeDemo includeArticle />
             <Link href={`/work/${project.slug}`} className="text-link product-story">{project.slug === "papertrail" ? "Inside the build" : "Explore the product thinking"}<span aria-hidden="true">→</span></Link>
           </div>
         </article>

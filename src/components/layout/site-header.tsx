@@ -11,8 +11,9 @@ export function SiteHeader() {
       <nav aria-label="Main navigation">
         <ul className="site-nav-list">
           <li><Link prefetch={false} className="nav-link" href="/#work">Work</Link></li>
-          <li><Link prefetch={false} className="nav-link" href="/#products">Products</Link></li>
-          <li><Link prefetch={false} className="nav-link" href="/#about">About</Link></li>
+          <li><Link prefetch={false} className="nav-link" href="/#experience">Experience</Link></li>
+          <li><Link className="nav-link" href="/resume">Resume</Link></li>
+          <li><Link prefetch={false} className="nav-link" href="/#contact">Contact</Link></li>
         </ul>
       </nav>
     </header>
