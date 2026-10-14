@@ -35,9 +35,11 @@ export function HeroProof({ items }: { items: readonly HeroProofItem[] }) {
   }, { scope: root, dependencies: [selected], revertOnUpdate: true });
 
   function select(index: number) {
-    if (index === selected) return;
-    interacted.current = true;
-    setSelected(index);
+    setSelected((current) => {
+      if (index === current) return current;
+      interacted.current = true;
+      return index;
+    });
   }
 
   return (

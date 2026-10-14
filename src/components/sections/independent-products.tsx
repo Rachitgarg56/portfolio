@@ -7,9 +7,9 @@ import { independentProjects } from "@/data/projects";
 export function IndependentProducts() {
   return (
     <Section id="products" tabIndex={-1} aria-labelledby="products-title" className="products-section">
-      <div className="section-heading">
+      <div className="section-heading section-heading-wide">
         <p className="type-label text-muted">02 / Independent products</p>
-        <div><h2 id="products-title" className="type-heading">A problem worth<br />building for.</h2><p className="section-description">Two explorations of useful AI. Two very different questions.</p></div>
+        <div><h2 id="products-title" className="type-heading">A problem worth building for.</h2><p className="section-description">Two explorations of useful AI. Two very different questions.</p></div>
       </div>
       {independentProjects.map((project) => (
         <article className={`product-feature product-${project.slug}`} key={project.slug} aria-labelledby={`preview-${project.slug}`}>

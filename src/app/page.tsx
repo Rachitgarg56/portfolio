@@ -21,8 +21,10 @@ export default function Home() {
       <IndependentProducts />
       <Experience />
       <Toolkit />
-      <Now />
-      <About />
+      <div className="about-now-cluster">
+        <Now />
+        <About />
+      </div>
       <Contact />
     </>
   );

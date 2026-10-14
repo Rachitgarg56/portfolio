@@ -207,6 +207,26 @@ test("homepage exposes the full hiring narrative and contact path", () => {
   assert.ok(html.includes('href="/resume"'));
 });
 
+test("homepage composition preserves section anchors, project order and the asset workflow", () => {
+  const html = pages.get("/").html;
+  for (const id of ["work", "experience", "toolkit", "now", "about", "contact"]) {
+    assert.ok(html.includes(`id="${id}"`), `${id}: section anchor`);
+  }
+
+  const projects = ["sringeri-net", "asset-management-system", "papertrail", "unstuck"];
+  const positions = projects.map((project) => html.indexOf(`id="preview-${project}"`));
+  assert.ok(positions.every((position) => position >= 0), "all homepage projects are present");
+  assert.deepEqual([...positions].sort((a, b) => a - b), positions, "homepage project hierarchy");
+
+  const workflowHeading = html.indexOf("From request to audit trail.");
+  assert.ok(workflowHeading >= 0, "homepage asset workflow is present");
+  const workflow = ["Request", "Review", "Approval", "Asset update", "In / Out tracking", "Audit trail"];
+  const workflowPositions = workflow.map((step) => html.indexOf(`<strong>${step}</strong>`, workflowHeading));
+  assert.ok(workflowPositions.every((position) => position >= workflowHeading), "all workflow states are present");
+  assert.deepEqual([...workflowPositions].sort((a, b) => a - b), workflowPositions, "workflow states retain their order");
+  assert.doesNotMatch(html, /<video\b|<audio\b|<iframe\b/);
+});
+
 test("resume route and supplied PDF are available without an embedded viewer", async () => {
   const html = pages.get("/resume").html;
   assert.ok(html.includes('href="/resume/rachit-garg-resume.pdf"'));
