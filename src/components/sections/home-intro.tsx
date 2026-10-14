@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Section } from "@/components/layout/section";
 import { profile } from "@/data/profile";
-import { independentProjects, professionalProjects, sringeriProject } from "@/data/projects";
+import { independentProjects, sringeriProject } from "@/data/projects";
 import { HeroProof, type HeroProofItem } from "@/components/sections/hero-proof";
 import portrait from "../../../public/images/rachit-garg-portrait.webp";
 
@@ -39,27 +39,6 @@ export function HomeIntro() {
             fetchPriority="high"
           />
         </figure>
-      </div>
-
-      <aside className="work-index hero-work-index" aria-label="A quick look at my work">
-        {[
-          { label: "In production", items: professionalProjects },
-          { label: "Built independently", items: independentProjects },
-        ].map(({ label, items }) => (
-          <div className="index-group" key={label}>
-            <p className="type-label text-muted">{label}</p>
-            {items.map((project) => (
-              <Link className="index-link" key={project.slug} href={`/work/${project.slug}`}>
-                <span><span className="index-name">{project.name}</span><span className="index-description">{project.focus.split(" / ")[0]}</span></span>
-                <span className="index-arrow" aria-hidden="true">↗</span>
-              </Link>
-            ))}
-          </div>
-        ))}
-      </aside>
-      <div className="hero-details">
-        <p>{profile.experience}</p>
-        <p><span className="text-muted">Core toolkit</span> <span>{profile.technologies.join(" / ")}</span></p>
       </div>
     </Section>
   );

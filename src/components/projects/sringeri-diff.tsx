@@ -15,7 +15,7 @@ function Comparison({ metric, prominent = false }: { metric: ComparisonMetric; p
 }
 
 export function SringeriDiff() {
-  const { load, seo, accessibility, components } = sringeriProject.metrics;
+  const { load, seo, accessibility, components, codebase } = sringeriProject.metrics;
   return <DiffMotion>
     <h4 id="sringeri-diff-title" className="type-label" data-diff-trigger>Engineering the improvement</h4>
     <Comparison metric={load} prominent />
@@ -29,6 +29,10 @@ export function SringeriDiff() {
           <span className="diff-improved" data-diff-after><strong>{components.value} migrated</strong><br />to {sringeriProject.transformation.after}</span>
         </dd></div>
       </dl>
+    </div>
+    <div className="diff-secondary-outcome">
+      <p className="diff-comparison-label">Codebase size</p>
+      <p><span>{codebase.qualifier}</span> <strong>{codebase.value}</strong> smaller</p>
     </div>
     <div className="diff-engineering-note" data-diff-note>
       <p>Component migration, performance optimization and more accessible interfaces.</p>

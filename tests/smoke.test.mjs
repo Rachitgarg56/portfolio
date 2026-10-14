@@ -184,7 +184,7 @@ test("images are optimized, dimensioned and load according to placement; recordi
 test("homepage renders complete comparisons and experience before JavaScript", () => {
   const html = pages.get("/").html;
   const text = html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ");
-  for (const value of ["3.6", "2.1", "78", "95", "82", "96", "40+", "Next.js + TypeScript", "Legacy components"]) assert.ok(text.includes(value), value);
+  for (const value of ["3.6", "2.1", "78", "95", "82", "96", "40+", "18%", "Next.js + TypeScript", "Legacy components"]) assert.ok(text.includes(value), value);
   for (const value of ["Leviosa Consulting Pvt. Ltd.", "Junior Software Developer", "Jan 2025", "Present", "Intentive Technologies Pvt. Ltd.", "SDE Intern", "Aug 2024"]) assert.ok(text.includes(value), value);
   assert.match(html, /<time dateTime="2025-01"|<time datetime="2025-01"/);
   assert.match(html, /aria-labelledby="sringeri-diff-title"/);
@@ -197,7 +197,7 @@ test("homepage exposes the full hiring narrative and contact path", () => {
   const text = html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ");
   for (const value of [
     "Software Engineer building product-grade web and AI systems, with a frontend edge.",
-    "Engineering toolkit", "Building", "Exploring", "Interested in",
+    "Engineering evidence", "Building", "Exploring", "Interested in",
     "Geekster", "Full Stack Web Development Apprentice", "Jun 2023", "FigPro",
     "Kommunicate", "Support Bot Builder", "Jekyll / Liquid", "Bengaluru",
   ]) assert.ok(text.includes(value), value);
@@ -207,24 +207,52 @@ test("homepage exposes the full hiring narrative and contact path", () => {
   assert.ok(html.includes('href="/resume"'));
 });
 
-test("homepage composition preserves section anchors, project order and the asset workflow", () => {
+test("homepage visual chapters preserve order, anchors and verified production evidence", () => {
   const html = pages.get("/").html;
-  for (const id of ["work", "experience", "toolkit", "now", "about", "contact"]) {
+  const text = html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ");
+  for (const id of ["work", "products", "experience", "toolkit", "now", "about", "contact"]) {
     assert.ok(html.includes(`id="${id}"`), `${id}: section anchor`);
   }
+
+  const chapters = ["id=\"intro\"", "id=\"work\"", "id=\"products\"", "id=\"experience\"", "id=\"about\"", "id=\"contact\""];
+  const chapterPositions = chapters.map((chapter) => html.indexOf(chapter));
+  assert.deepEqual([...chapterPositions].sort((a, b) => a - b), chapterPositions, "visual chapters retain their order");
+  for (const value of ["01 / Production", "02 / Independent products", "03 / Journey", "18%", "Edits prevented"]) assert.ok(text.includes(value), value);
+  assert.doesNotMatch(text, /40%/);
 
   const projects = ["sringeri-net", "asset-management-system", "papertrail", "unstuck"];
   const positions = projects.map((project) => html.indexOf(`id="preview-${project}"`));
   assert.ok(positions.every((position) => position >= 0), "all homepage projects are present");
   assert.deepEqual([...positions].sort((a, b) => a - b), positions, "homepage project hierarchy");
 
-  const workflowHeading = html.indexOf("From request to audit trail.");
+  const workflowHeading = html.indexOf("One request. Six accountable states.");
   assert.ok(workflowHeading >= 0, "homepage asset workflow is present");
   const workflow = ["Request", "Review", "Approval", "Asset update", "In / Out tracking", "Audit trail"];
   const workflowPositions = workflow.map((step) => html.indexOf(`<strong>${step}</strong>`, workflowHeading));
   assert.ok(workflowPositions.every((position) => position >= workflowHeading), "all workflow states are present");
   assert.deepEqual([...workflowPositions].sort((a, b) => a - b), workflowPositions, "workflow states retain their order");
+  for (const value of ["Role context", "request state", "available UI actions", "25%", "30%", "Frontend rules improve workflow clarity"]) assert.ok(text.includes(value), value);
   assert.doesNotMatch(html, /<video\b|<audio\b|<iframe\b/);
+});
+
+test("independent product chapters expose distinct verified stories", () => {
+  const html = pages.get("/").html;
+  const text = html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ");
+  for (const value of [
+    "PDF / TXT / Markdown", "Extraction + chunking", "Gemini embeddings", "PostgreSQL / pgvector",
+    "Question", "Workspace-scoped retrieval", "Grounded streamed answer", "Citations",
+    "Typical answer-first AI", "Prompt", "Solution", "What have you tried?", "Progressive hint", "Explain the approach", "Source private",
+  ]) assert.ok(text.includes(value), value);
+  assert.doesNotMatch(html, /<video\b|<audio\b|<iframe\b/);
+});
+
+test("Journey is chronological and contains toolkit, Now and supporting proof", () => {
+  const html = pages.get("/").html;
+  const text = html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ");
+  const entries = ["Geekster", "Intentive Technologies Pvt. Ltd.", "Leviosa Consulting Pvt. Ltd."];
+  const positions = entries.map((entry) => html.indexOf(entry));
+  assert.deepEqual([...positions].sort((a, b) => a - b), positions, "Journey moves from foundation to current role");
+  for (const value of ["Foundation", "Internship", "Production engineering", "FigPro", "Engineering evidence", "Building", "Exploring", "Interested in"]) assert.ok(text.includes(value), value);
 });
 
 test("resume route and supplied PDF are available without an embedded viewer", async () => {

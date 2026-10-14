@@ -13,6 +13,10 @@ function AssetOutcomes({ metrics }: { metrics: Record<string, ProjectMetric> }) 
         <dt>{metric.label}</dt>
         <dd><strong>{metric.value}</strong>{metric.qualifier && <span>{metric.qualifier}</span>}</dd>
       </div>)}
+      <div className="project-impact-qualitative">
+        <dt>Approved requests</dt>
+        <dd><strong>Edits prevented</strong><span>Through state-driven UI rules</span></dd>
+      </div>
     </dl>
   );
 }
@@ -20,9 +24,9 @@ function AssetOutcomes({ metrics }: { metrics: Record<string, ProjectMetric> }) 
 export function SelectedWork() {
   return (
     <Section id="work" tabIndex={-1} aria-labelledby="work-title" className="work-section">
-      <div className="section-heading section-heading-wide">
-        <p className="type-label text-muted">01 / Production work</p>
-        <div><h2 id="work-title" className="type-heading">Engineering the before <span className="transformation-mark" aria-hidden="true">→</span><span className="sr-only">to</span> after.</h2>
+      <div className="chapter-heading chapter-heading-inverse">
+        <p className="type-label">01 / Production</p>
+        <div><h2 id="work-title">Engineering the before <span className="transformation-mark" aria-hidden="true">→</span><span className="sr-only">to</span> after.</h2>
           <p className="section-description">Existing systems. Real constraints. Useful improvements.</p></div>
       </div>
       {professionalProjects.map((project, index) => (
@@ -32,6 +36,7 @@ export function SelectedWork() {
             <h3 id={`preview-${project.slug}`} className="project-name">{project.name}</h3>
             <p className="text-muted">{project.summary}</p>
             <p className="project-contribution">{project.contributions[0]}</p>
+            {project.slug === "sringeri-net" && project.narrative?.decision && <p className="project-decision"><span className="type-label">Engineering decision</span>{project.narrative.decision}</p>}
             <ul className="technology-list" aria-label={`${project.name} technologies`}>
               {project.technologies.slice(0, 4).map((technology) => <li key={technology}>{technology}</li>)}
             </ul>

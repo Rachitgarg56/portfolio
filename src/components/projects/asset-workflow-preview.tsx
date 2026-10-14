@@ -1,3 +1,5 @@
+import { AssetWorkflowMotion } from "@/components/projects/asset-workflow-motion";
+
 const workflow = [
   "Request",
   "Review",
@@ -9,19 +11,22 @@ const workflow = [
 
 export function AssetWorkflowPreview() {
   return (
-    <div className="asset-workflow-preview" aria-labelledby="asset-workflow-preview-title">
-      <p className="type-label text-muted">State-driven workflow</p>
-      <h4 id="asset-workflow-preview-title">From request to audit trail.</h4>
-      <ol className="asset-workflow-preview-list">
+    <AssetWorkflowMotion>
+      <div className="asset-workflow-heading">
+        <p className="type-label">State-driven system</p>
+        <h4 id="asset-workflow-preview-title" data-workflow-trigger>One request. Six accountable states.</h4>
+      </div>
+      <ol className="asset-workflow-preview-list" aria-label="Asset request workflow">
         {workflow.map((step, index) => (
-          <li key={step}>
+          <li key={step} data-workflow-node>
             <span className="asset-workflow-number">0{index + 1}</span>
             <strong>{step}</strong>
-            {index < workflow.length - 1 && <span className="asset-workflow-direction" aria-hidden="true">↓</span>}
+            {index < workflow.length - 1 && <span className="asset-workflow-connector" data-workflow-connector aria-hidden="true" />}
           </li>
         ))}
       </ol>
-      <p className="asset-workflow-note">A public-safe view of the interface states. Authorization remains a server-side concern.</p>
-    </div>
+      <p className="asset-workflow-principle"><span>Role context</span><b aria-hidden="true">+</b><span>request state</span><b aria-hidden="true">→</b><strong>available UI actions</strong></p>
+      <p className="asset-workflow-note">A public-safe view of the interface states. Frontend rules improve workflow clarity; authorization remains a server-side concern.</p>
+    </AssetWorkflowMotion>
   );
 }

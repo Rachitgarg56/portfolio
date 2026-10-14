@@ -4,7 +4,7 @@ import { profile } from "@/data/profile";
 export function SiteHeader() {
   return (
     <header className="site-header">
-      <Link prefetch={false} className="site-identity" href="/#intro" aria-label={`${profile.name}, home`}>
+      <Link prefetch={false} className="site-identity" href="/#intro">
         <span className="identity-mark" aria-hidden="true">rg<span>.</span></span>
         <span>{profile.name}</span>
       </Link>

@@ -12,10 +12,9 @@ Deployment
 - NEXT_PUBLIC_SITE_URL configured to that exact public origin before the production build.
 
 Browser verification
-- Browser accessibility audit and mobile Lighthouse run against the production build.
-- Manual keyboard, visible-focus, skip-link and JavaScript-disabled checks in an interactive browser.
+- Mobile Lighthouse run against the production build; Lighthouse is not installed in this workspace.
+- Manual keyboard, visible-focus and skip-link checks in an interactive browser.
 - Native browser review at 200% zoom (a 2x headless layout simulation passed).
-- Reduced-motion interaction checks, including preference changes during GSAP motion.
 - Real-device touch checks for the hero proof controls and native videos.
 
 These items are intentionally deferred. No transcript, deployment URL or audit result
